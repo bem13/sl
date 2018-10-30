@@ -43,6 +43,8 @@
 #include <limits.h>
 #include <signal.h>
 #include <unistd.h>
+#include <stdlib.h>
+#include <time.h>
 #include "sl.h"
 
 void add_smoke(int y, int x);
@@ -96,6 +98,14 @@ void option(char *str)
 int main(int argc, char *argv[])
 {
     int x, i;
+
+    // 10% chance of directory listing
+    // Original by devnull on StackExchange
+    // https://unix.stackexchange.com/a/124998/318479
+    srand(time(NULL));
+    if (rand() % 100 < 10) {
+      execv("/bin/ls", argv);
+    }
 
     for (i = 1; i < argc; ++i) {
         if (*argv[i] == '-') {
